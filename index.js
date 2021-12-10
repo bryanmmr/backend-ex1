@@ -26,10 +26,12 @@ const data = [{
 app.get('/',(req, res) => {
     res.send('hello')
 })
+// 1.1
 app.get('/api/persons',(req, res) => {
     res.json(data)
 })
 
+// 1.2
 app.get('/info', (req, res) => {
     const date = new Date()
     res.write(`Phonebook has info for ${data.length} people\n`)
@@ -37,14 +39,24 @@ app.get('/info', (req, res) => {
     res.end()
 })
 
+// 1.3
 app.get('/api/persons/:id', (req, res) => {
     const element = data.find(element => element.id === Number(req.params.id))
     return !element ? res.status(404).end() : res.json(element)
 })
 
+// 1.4
 app.delete('/api/persons/:id', (req, res) => {
     const element = data.find(element => element.id === Number(req.params.id))
     return !element ? res.status(404).end() : res.status(204).end()
+})
+
+// 1.5
+app.post('/api/persons', (req, res) => {
+    const newData = req.body
+    newData.id = Math.floor(Math.random()*0x10000)
+    data.push(newData)
+    res.status(201).json(data)
 })
 
 app.listen(port, () => {
