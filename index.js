@@ -42,6 +42,11 @@ app.get('/api/persons/:id', (req, res) => {
     return !element ? res.status(404).end() : res.json(element)
 })
 
+app.delete('/api/persons/:id', (req, res) => {
+    const element = data.find(element => element.id === Number(req.params.id))
+    return !element ? res.status(404).end() : res.status(204).end()
+})
+
 app.listen(port, () => {
     console.log(`Listening to port ${port}`)
 })
