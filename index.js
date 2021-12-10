@@ -1,6 +1,7 @@
 const express = require('express')
 
 const app = express()
+app.use(express.json())
 const port = 3001
 const data = [{
     id: 1,
@@ -34,6 +35,11 @@ app.get('/info', (req, res) => {
     res.write(`Phonebook has info for ${data.length} people\n`)
     res.write(date.toString())
     res.end()
+})
+
+app.get('/api/persons/:id', (req, res) => {
+    const element = data.find(element => element.id === Number(req.params.id))
+    return !element ? res.status(404).end() : res.json(element)
 })
 
 app.listen(port, () => {
