@@ -1,3 +1,4 @@
+const { response } = require('express')
 const express = require('express')
 
 const app = express()
@@ -51,13 +52,23 @@ app.delete('/api/persons/:id', (req, res) => {
     return !element ? res.status(404).end() : res.status(204).end()
 })
 
-// 1.5
+// 1.5 y 1.6
 app.post('/api/persons', (req, res) => {
     const newData = req.body
+    if(!newData.name){
+        return res.status(400).json({"error" : "Falta el nombre"})
+    }
+    else if (!newData.number){
+        return res.status(400).json({"error" : "Falta el numero"})
+    }
+    else if (data.find(element => element.name === newData.name)){
+        return res.status(409).json({"error" : "Nombre repetido"})
+    }
     newData.id = Math.floor(Math.random()*0x10000)
     data.push(newData)
     res.status(201).json(data)
 })
+
 
 app.listen(port, () => {
     console.log(`Listening to port ${port}`)
